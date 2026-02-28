@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "npx @tailwindcss/cli -i ./src/css/styles.css -o ./dist/css/styles.css --watch",
-    "build": "npx @tailwindcss/cli -i ./src/css/styles.css -o ./dist/css/styles.css --minify",
+    "dev:css": "npx @tailwindcss/cli -i ./src/css/styles.css -o ./dist/css/styles.css --watch",
+    "dev:js": "esbuild src/js/main.js --bundle --outfile=dist/js/bundle.js --format=iife --platform=browser --watch --sourcemap",
+    "dev": "concurrently \"pnpm dev:css\" \"pnpm dev:js\"",
+    "build:css": "npx @tailwindcss/cli -i ./src/css/styles.css -o ./dist/css/styles.css --minify",
     "build:js": "esbuild src/js/main.js --bundle --outfile=dist/js/bundle.js --format=iife --platform=browser --minify --sourcemap",
-    "dev:js": "esbuild src/js/main.js --bundle --outfile=dist/js/bundle.js --format=iife --platform=browser --watch",
+    "build": "pnpm build:css && pnpm build:js",
     "lint": "eslint src/js/",
     "format": "prettier --write src/js/"
   },
@@ -21,6 +23,7 @@
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "esbuild": "^0.27.3",
     "eslint": "^10.0.2",
     "prettier": "^3.8.1"
