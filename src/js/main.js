@@ -1,8 +1,9 @@
-// Importa la función initEditor del archivo editor.js
+// Importa las funciones
 import { initEditor } from './editor.js';
+import { initNotesUI } from './notes-ui.js';
 
-// Espera a que el DOM se cargue completamente
+// Inicializa la aplicación
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa el editor
+  initNotesUI();
   initEditor();
 });

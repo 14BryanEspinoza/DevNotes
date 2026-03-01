@@ -23,15 +23,63 @@
 
   <!-- Body -->
   <body>
-    <!-- Editor Container -->
-    <div class="flex flex-col md:flex-row mt-4 h-[calc(100vh-2rem)]">
-      <!-- Textarea -->
-      <textarea
-        id="editor-textarea"
-        class="flex-1 p-4 resize-none bg-bg-secondary text-text-primary placeholder-text-disabled shadow-none outline-none"
-        placeholder="Escribe tu nota aquí en Markdown..."
-        aria-label="Editor de notas"
-      ></textarea>
+    <!-- Header -->
+    <header
+      class="flex items-center justify-between px-4 py-3 bg-bg-secondary border-b border-bg-elevated"
+    >
+      <h1 class="text-xl font-semibold text-text-primary">DevNotes</h1>
+      <div class="flex gap-2">
+        <button
+          id="btn-new-note"
+          class="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-colors"
+          aria-label="Crear nueva nota"
+        >
+          Nueva Nota
+        </button>
+        <button
+          id="btn-delete-note"
+          class="px-4 py-2 bg-error text-white font-medium rounded-lg hover:bg-opacity-90 focus-visible:outline-2 focus-visible:outline-error focus-visible:outline-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Eliminar nota actual"
+          disabled
+        >
+          Eliminar
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex flex-col md:flex-row mt-4 h-[calc(100vh-5rem)]">
+      <!-- Sidebar -->
+      <aside
+        id="notes-sidebar"
+        class="w-full md:w-72 bg-bg-secondary border-r border-bg-elevated overflow-y-auto"
+        aria-label="Lista de notas"
+      >
+        <div id="notes-list" class="p-2">
+          <!-- Notes will be rendered here -->
+        </div>
+      </aside>
+
+      <!-- Editor Container -->
+      <div class="flex-1 flex flex-col">
+        <!-- Title Input -->
+        <input
+          id="note-title"
+          type="text"
+          class="w-full px-4 py-3 bg-bg-secondary text-text-primary text-lg font-medium placeholder-text-disabled shadow-none outline-none border-b border-bg-elevated"
+          placeholder="Sin título"
+          aria-label="Título de la nota"
+        />
+
+        <!-- Textarea -->
+        <textarea
+          id="editor-textarea"
+          class="flex-1 p-4 resize-none bg-bg-secondary text-text-primary placeholder-text-disabled shadow-none outline-none"
+          placeholder="Escribe tu nota aquí en Markdown..."
+          aria-label="Editor de notas"
+        ></textarea>
+      </div>
+
       <!-- Preview -->
       <div
         id="editor-preview"
