@@ -23,12 +23,23 @@
 
   <!-- Body -->
   <body>
-    <!-- Editor -->
-    <textarea
-      id="editor-textarea"
-      class="p-4 mt-4 w-full min-h-[200px] resize-y bg-bg-secondary text-text-primary placeholder-text-disabled"
-      placeholder="Escribe tu nota aquí..."
-      aria-label="Editor de notas"
-    ></textarea>
+    <!-- Editor Container -->
+    <div class="flex flex-col md:flex-row mt-4 h-[calc(100vh-2rem)]">
+      <!-- Textarea -->
+      <textarea
+        id="editor-textarea"
+        class="flex-1 p-4 resize-none bg-bg-secondary text-text-primary placeholder-text-disabled shadow-none outline-none"
+        placeholder="Escribe tu nota aquí en Markdown..."
+        aria-label="Editor de notas"
+      ></textarea>
+      <!-- Preview -->
+      <div
+        id="editor-preview"
+        class="flex-1 p-4 bg-bg-elevated text-text-primary overflow-y-auto markdown-preview"
+        aria-label="Vista previa"
+      >
+        <p class="text-text-disabled italic">La vista previa aparecerá aquí...</p>
+      </div>
+    </div>
   </body>
 </html>
