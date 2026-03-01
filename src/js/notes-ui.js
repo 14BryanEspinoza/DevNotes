@@ -38,42 +38,37 @@ function getTitlePreview(note) {
 
 // Renderiza las notas
 function renderNotes() {
-  // Obtenemos el contenedor
-  const container = document.getElementById('notes-list');
+  renderNotesToContainer('notes-list');
+  renderNotesToContainer('notes-list-mobile');
+}
 
-  // Si no existe el contenedor, retornamos
-  if (!container) {
-    return;
-  }
+function renderNotesToContainer(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
-  // Obtenemos el estado
   const { notes, activeNoteId } = getState();
 
-  // Si no hay notas, retornamos
   if (notes.length === 0) {
     container.innerHTML = `
-      <p class="text-text-disabled text-sm p-3">No hay notas</p>
+      <p class="text-purple-300/50 text-sm p-3">No hay notas</p>
     `;
     return;
   }
 
-  // Renderizamos las notas
   container.innerHTML = notes
     .map(
       (note) => `
       <button
-        class="note-item w-full text-left p-3 rounded-lg mb-1 transition-colors ${
-  note.id === activeNoteId
-    ? 'bg-primary text-white'
-    : 'text-text-secondary hover:bg-bg-elevated'
-}"
+        class="note-item w-full text-left transition-all ${
+          note.id === activeNoteId ? 'active' : ''
+        }"
         data-note-id="${note.id}"
         aria-pressed="${note.id === activeNoteId}"
       >
-        <div class="font-medium text-sm truncate">
+        <div class="font-medium text-sm truncate text-white">
           ${getTitlePreview(note)}
         </div>
-        <div class="text-xs ${note.id === activeNoteId ? 'text-white/70' : 'text-text-disabled'} mt-1">
+        <div class="text-xs text-purple-300/60 mt-1">
           ${formatDate(note.updatedAt)}
         </div>
       </button>
@@ -81,14 +76,20 @@ function renderNotes() {
     )
     .join('');
 
-  // Agregamos los eventos
   container.querySelectorAll('.note-item').forEach((item) => {
     item.addEventListener('click', () => {
-      // Obtenemos el ID de la nota
       const noteId = item.dataset.noteId;
-
-      // Activamos la nota
       setActiveNote(noteId);
+
+      // Cerrar drawer si existe y estamos en mobile
+      const drawer = document.getElementById('mobile-drawer');
+      if (drawer && !drawer.classList.contains('hidden')) {
+        drawer.classList.remove('open');
+        drawer.querySelector('.drawer-panel')?.classList.remove('open');
+        document.getElementById('drawer-backdrop')?.classList.remove('open');
+        document.body.classList.remove('drawer-open');
+        drawer.classList.add('hidden');
+      }
     });
   });
 }

@@ -1,11 +1,19 @@
 <!doctype html>
-<!-- Lang -->
+<!-- Lang: Spanish -->
 <html lang="es">
   <!-- Head -->
   <head>
     <!-- Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="App para gestionar notas estilo Markdown" />
+    <meta name="keywords" content="App, Notas, Markdown, DevNotes" />
+    <meta name="author" content="Bryan Espinoza" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="DevNotes" />
+    <meta property="og:description" content="App para gestionar notas estilo Markdown" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://devnotes14bz.netlify.app" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,68 +21,178 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <!-- Scripts -->
     <script src="dist/js/bundle.js" type="module" defer></script>
     <!-- Styles -->
     <link rel="stylesheet" href="dist/css/styles.css" />
+    <!-- Icon -->
+    <link rel="icon" type="image/png" href="src/assets/icon.png" />
     <!-- Title -->
     <title>DevNotes</title>
   </head>
 
   <!-- Body -->
-  <body>
+  <body class="min-h-screen">
     <!-- Header -->
-    <header
-      class="flex items-center justify-between px-4 py-3 bg-bg-secondary border-b border-bg-elevated"
-    >
-      <h1 class="text-xl font-semibold text-text-primary">DevNotes</h1>
-      <div class="flex gap-2">
+    <header class="glass flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+      <!-- Title Container -->
+      <div class="flex items-center gap-2">
+        <!-- Menu Button -->
+        <button
+          id="btn-menu"
+          class="text-white md:hidden"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Title -->
+        <h1 class="flex items-center gap-2 text-lg font-semibold text-white">
+          <i data-lucide="file-text" class="w-5 h-5 text-purple-400 hidden md:flex"></i>
+          DevNote
+        </h1>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-4">
+        <!-- New Note Button -->
         <button
           id="btn-new-note"
-          class="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-colors"
+          class="glass-btn flex items-center gap-2 px-3 py-2 text-white font-medium rounded-lg transition-all md:px-4"
           aria-label="Crear nueva nota"
         >
-          Nueva Nota
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span class="hidden md:inline">Nueva Nota</span>
         </button>
+
+        <!-- Delete Note Button -->
         <button
           id="btn-delete-note"
-          class="px-4 py-2 bg-error text-white font-medium rounded-lg hover:bg-opacity-90 focus-visible:outline-2 focus-visible:outline-error focus-visible:outline-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          class="hidden md:flex glass-btn items-center gap-2 px-3 py-2 bg-red-500/20 border border-red-500/30 text-red-300 font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Eliminar nota actual"
           disabled
         >
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
           Eliminar
         </button>
+
+        <!-- Export HTML Button -->
         <button
           id="btn-export-html"
-          class="px-4 py-2 bg-info text-white font-medium rounded-lg hover:bg-opacity-90 focus-visible:outline-2 focus-visible:outline-info focus-visible:outline-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="Exportar nota como HTML"
+          class="hidden md:flex glass-btn items-center gap-2 px-3 py-2 bg-blue-500/20 border border-blue-500/30 text-blue-300 font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           disabled
         >
+          <i data-lucide="download" class="w-4 h-4"></i>
           Exportar HTML
         </button>
       </div>
     </header>
 
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="fixed inset-0 z-50 hidden" aria-label="Menú de navegación">
+      <!-- Backdrop -->
+      <div
+        id="drawer-backdrop"
+        class="drawer-backdrop absolute inset-0 bg-black/60 backdrop-blur-sm"
+      ></div>
+
+      <!-- Panel -->
+      <aside
+        id="drawer-panel"
+        class="drawer-panel glass absolute flex flex-col z-50 w-[90%] h-full"
+        aria-label="Menú de notas"
+      >
+        <!-- Header -->
+        <div class="flex items-center justify-between p-4 border-b border-white/10">
+          <!-- Header Title -->
+          <h2 class="text-base font-semibold text-white">Menú</h2>
+
+          <!-- Header Close Button -->
+          <button
+            id="btn-close-drawer"
+            class="text-white transition-colors"
+            aria-label="Cerrar menú"
+          >
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <!-- Actions -->
+        <div class="p-2 space-y-2 border-b border-white/10">
+          <!-- New Note Button -->
+          <button
+            id="btn-new-note-mobile"
+            class="glass-btn w-full flex items-center justify-center gap-2 p-2 text-white font-medium rounded-lg"
+            aria-label="Crear nueva nota"
+          >
+            <i data-lucide="plus" class="w-5 h-5"></i>
+            Nueva Nota
+          </button>
+
+          <!-- Delete Note Button -->
+          <button
+            id="btn-delete-note-mobile"
+            class="glass-btn w-full flex items-center justify-center gap-2 p-2 bg-red-500/20 border border-red-500/30 text-red-300 font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Eliminar nota actual"
+            disabled
+          >
+            <i data-lucide="trash-2" class="w-5 h-5"></i>
+            Eliminar Nota
+          </button>
+
+          <!-- Export HTML Button -->
+          <button
+            id="btn-export-html-mobile"
+            class="w-full glass-btn flex items-center justify-center gap-2 p-2 bg-blue-500/20 border border-blue-500/30 text-blue-300 font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            <i data-lucide="download" class="w-5 h-5"></i>
+            Exportar HTML
+          </button>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="flex-1 overflow-y-auto">
+          <!-- Notes List Container -->
+          <div class="p-2">
+            <!-- Notes List Title -->
+            <h3 class="text-sm font-medium text-purple-300/70 mb-2">Mis Notas</h3>
+
+            <!-- Notes List -->
+            <div id="notes-list-mobile">
+              <!-- Notes will be rendered here -->
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
     <!-- Main Container -->
-    <div class="flex flex-col md:flex-row mt-4 h-[calc(100vh-5rem)]">
-      <!-- Sidebar -->
+    <div
+      class="flex flex-col mt-4 h-[calc(100vh-5rem)] px-4 pb-4 gap-4 md:flex-row md:h-[calc(75vh-5rem)]"
+    >
+      <!-- Sidebar (desktop only) -->
       <aside
         id="notes-sidebar"
-        class="w-full md:w-72 bg-bg-secondary border-r border-bg-elevated overflow-y-auto"
+        class="hidden md:flex glass w-full md:w-72 overflow-y-auto"
         aria-label="Lista de notas"
       >
-        <div id="notes-list" class="p-2">
+        <!-- Notes List Container -->
+        <div id="notes-list" class="p-2 w-full">
           <!-- Notes will be rendered here -->
         </div>
       </aside>
 
       <!-- Editor Container -->
-      <div class="flex-1 flex flex-col">
+      <div class="flex-1 flex flex-col glass">
         <!-- Title Input -->
         <input
           id="note-title"
           type="text"
-          class="w-full px-4 py-3 bg-bg-secondary text-text-primary text-lg font-medium placeholder-text-disabled shadow-none outline-none border-b border-bg-elevated"
+          class="w-full px-4 py-3 bg-transparent text-white text-lg font-medium placeholder-purple-300/50 shadow-none outline-none border-b border-white/10"
           placeholder="Sin título"
           aria-label="Título de la nota"
         />
@@ -82,7 +200,7 @@
         <!-- Textarea -->
         <textarea
           id="editor-textarea"
-          class="flex-1 p-4 resize-none bg-bg-secondary text-text-primary placeholder-text-disabled shadow-none outline-none"
+          class="flex-1 p-4 resize-none bg-transparent text-white placeholder-purple-300/50 shadow-none outline-none"
           placeholder="Escribe tu nota aquí en Markdown..."
           aria-label="Editor de notas"
         ></textarea>
@@ -91,11 +209,48 @@
       <!-- Preview -->
       <div
         id="editor-preview"
-        class="flex-1 p-4 bg-bg-elevated text-text-primary overflow-y-auto markdown-preview"
+        class="glass flex-1 p-4 text-white overflow-y-auto markdown-preview"
         aria-label="Vista previa"
       >
-        <p class="text-text-disabled italic">La vista previa aparecerá aquí...</p>
+        <p class="text-purple-300/50 italic">La vista previa aparecerá aquí...</p>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="glass mt-4 mx-4 mb-4 p-6 border-t border-white/10 rounded-lg text-center">
+      <!-- Quote -->
+      <p class="text-purple-200/70 italic mb-6 max-w-lg mx-auto leading-relaxed">
+        "Programa no para resolver problemas, sino para crear soluciones."
+      </p>
+
+      <div
+        class="flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10"
+      >
+        <!-- Copyright -->
+        <p class="text-sm text-purple-300/50">Copyright &copy; 2026 - 14BryanEspinoza</p>
+
+        <!-- Socials -->
+        <div class="flex items-center gap-5">
+          <a
+            href="https://github.com/14BryanEspinoza"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-purple-300/60 hover:text-white transition-all hover:scale-110"
+            aria-label="GitHub"
+          >
+            <i data-lucide="github" class="w-5 h-5"></i>
+          </a>
+          <a
+            href="https://linkedin.com/in/14bryanespinoza"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-purple-300/60 hover:text-[#0077B5] transition-all hover:scale-110"
+            aria-label="LinkedIn"
+          >
+            <i data-lucide="linkedin" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

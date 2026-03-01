@@ -21,7 +21,7 @@ function updatePreview(markdown) {
   // Si no hay contenido, mostramos un mensaje
   if (!markdown.trim()) {
     preview.innerHTML =
-      '<p class="text-text-disabled italic">La vista previa aparecerá aquí...</p>';
+      '<p class="text-purple-300/50 italic">La vista previa aparecerá aquí...</p>';
     return;
   }
 
@@ -49,7 +49,7 @@ function loadActiveNote() {
     titleInput.value = '';
     textarea.value = '';
     preview.innerHTML =
-      '<p class="text-text-disabled italic">La vista previa aparecerá aquí...</p>';
+      '<p class="text-purple-300/50 italic">La vista previa aparecerá aquí...</p>';
     deleteBtn.disabled = true;
     exportBtn.disabled = true;
   }
@@ -107,14 +107,21 @@ function handleDeleteNote() {
 }
 
 // Maneja la exportación de la nota a HTML
-function handleExportHtml() {
+async function handleExportHtml() {
+  // Obtenemos la nota activa
   const note = getActiveNote();
-  if (!note) return;
 
+  // Si no hay una nota activa, retornamos
+  if (!note) {
+    return;
+  }
+
+  // Obtenemos el título y el contenido
   const title = note.title || 'sin-titulo';
-  const safeTitle = title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
-  const htmlContent = marked.parse(note.content || '');
+  const safeTitle = title.replaceAll(/[^a-z0-9]/gi, '-').toLowerCase();
+  const htmlContent = await marked.parse(note.content || '');
 
+  // Generamos el HTML
   const fullHtml = `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -135,8 +142,11 @@ function handleExportHtml() {
 </body>
 </html>`;
 
+  // Generamos el Blob y la URL
   const blob = new Blob([fullHtml], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
+
+  // Creamos el enlace y lo hacemos clic
   const a = document.createElement('a');
   a.href = url;
   a.download = `${safeTitle}.html`;
@@ -146,6 +156,7 @@ function handleExportHtml() {
 
 // Inicializa el editor
 function initEditor() {
+  // Obtenemos los elementos
   titleInput = document.getElementById('note-title');
   textarea = document.getElementById('editor-textarea');
   preview = document.getElementById('editor-preview');
