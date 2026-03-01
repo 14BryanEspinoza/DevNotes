@@ -1,19 +1,34 @@
 <!doctype html>
+<!-- Lang -->
 <html lang="es">
+  <!-- Head -->
   <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevNotes</title>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <!-- Scripts -->
+    <script src="dist/js/bundle.js" type="module" defer></script>
+    <!-- Styles -->
     <link rel="stylesheet" href="dist/css/styles.css" />
+    <!-- Title -->
+    <title>DevNotes</title>
   </head>
+
+  <!-- Body -->
   <body>
-    <h1 class="text-4xl font-bold text-center text-gray-80">Welcome to DevNotes</h1>
-    <script src="dist/js/bundle.js"></script>
+    <!-- Editor -->
+    <textarea
+      id="editor-textarea"
+      class="p-4 mt-4 w-full min-h-[200px] resize-y bg-bg-secondary text-text-primary placeholder-text-disabled"
+      placeholder="Escribe tu nota aquí..."
+      aria-label="Editor de notas"
+    ></textarea>
   </body>
 </html>
