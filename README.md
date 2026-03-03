@@ -46,9 +46,10 @@ DevNotes/
 │       └── preview.png     # Preview para Open Graph
 └── dist/                   # Archivos compilados
     ├── css/
-    │   └── styles.css
-    └── js/
-        └── bundle.js
+    │   └── styles.css      # CSS minificado
+    ├── js/
+    │   └── bundle.js       # JS minificado
+    └── index.html          # HTML minificado
 ```
 
 ## Instalación
@@ -97,7 +98,7 @@ Los archivos compilados estarán en la carpeta `dist/`.
 
 ## 🔗 Enlace del proyecto
 
-- **Sitio en vivo**: [Ver Proyecto](https://devnotes14bz.netlify.app/)
+- **Sitio en vivo**: [Ver Proyecto](https://devnotes14bz.vercel.app/)
 
 ## 📊 Estado del proyecto
 
